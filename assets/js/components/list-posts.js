@@ -1,5 +1,5 @@
 var $ = jQuery;
-var Books = React.createClass({
+var AllBooks = React.createClass({
 
     getInitialState: function() {
         return {
@@ -21,24 +21,30 @@ var Books = React.createClass({
     render: function() {
 
         if( this.state.books.length > 0 ) {
-            console.log('rendering..');
-            var all_books = this.state.books.map(function(book, i) {
-                return (<div className="row" key="{book.id}"><book className="col-sm-12" book="{book}"></book></div>);
-            });
-            return( <div>{all_books}</div> );
+            return( <Books data={this.state.books}></Books>)
         } else {
-            console.log('no books');
             return(<div>No Books</div>);
         }
     }
 });
 
-var Book = React.createClass({
+var Books = React.createClass({
+    render: function(){
+        if( this.props.data.length ) {
+            var books = this.props.data.map(function(book){
+                return( <Book key={book.id} book={book}></Book> );
+            })
+            return(<div>{books}</div>)
+        } else {
+            return( <div>Book not found</div> );
+        }
+    }
+});
 
+var Book = React.createClass({
     render: function(){
         return(<article>{this.props.book.title.rendered}</article>);
     }
-
 })
 
-ReactDOM.render(<Books />, document.getElementById('app-container'));
+ReactDOM.render(<AllBooks />, document.getElementById('app-container'));
