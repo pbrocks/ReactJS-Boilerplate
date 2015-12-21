@@ -12,7 +12,7 @@ wp-content/upgrade/
 wp-content/uploads/
 wp-content/wp-cache-config.php
 build/js/.module-cache/
-.build/js/.module-cache/
+.build/
 node_modules/
 build/
 .idea/

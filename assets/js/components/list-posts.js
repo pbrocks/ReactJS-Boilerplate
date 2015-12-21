@@ -9,22 +9,26 @@ var Books = React.createClass({
     componentDidMount: function() {
 
         $.get( admin_app_local.api_url + 'wp/v2/book', function(res){
-            this.setState({
-                books: res
-            })
+            if (this.isMounted()) {
+                this.setState({
+                    books: res
+                })
+            }
         }.bind(this))
 
     },
 
     render: function() {
-        console.log('rendering..');
+
         if( this.state.books.length > 0 ) {
+            console.log('rendering..');
             var all_books = this.state.books.map(function(book, i) {
-                console.log('post-' + i);
-                return (<div className="row" key="{'post-' + i}"><book className="col-sm-12" book="{book}"></book></div>);
+                console.log( book );
+                return (<div className="row" key="{book}"><book className="col-sm-12" book="{book}"></book></div>);
             });
             return( <div>{all_books}</div> );
         } else {
+            console.log('no books');
             return(<div>No Books</div>);
         }
     }
