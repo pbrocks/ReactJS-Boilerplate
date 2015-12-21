@@ -23,8 +23,7 @@ var Books = React.createClass({
         if( this.state.books.length > 0 ) {
             console.log('rendering..');
             var all_books = this.state.books.map(function(book, i) {
-                console.log( book );
-                return (<div className="row" key="{book}"><book className="col-sm-12" book="{book}"></book></div>);
+                return (<div className="row" key="{book.id}"><book className="col-sm-12" book="{book}"></book></div>);
             });
             return( <div>{all_books}</div> );
         } else {
