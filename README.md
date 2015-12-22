@@ -8,6 +8,7 @@ This repo is the ReactJS version of the boilerplate, check out the [organization
 ##Installation
 * Clone Repo into `wp-content/plugins`
 * Run `npm install`
+* Run `gulp jsx`
 * Run `gulp`
 
 ##Starter Content
