@@ -7,7 +7,8 @@ var gulp = require('gulp'),
 
 var jsFileList = [
     'node_modules/react/dist/react-with-addons.js',
-    'node_modules/react-dom/dist/react-dom.js'
+    'node_modules/react-dom/dist/react-dom.js',
+    'node_modules/react-router/umd/ReactRouter.js',
 ];
 
 gulp.task( 'sass', function() {
@@ -25,12 +26,12 @@ gulp.task( 'js', function(){
 });
 
 gulp.task( 'jsx-concat', function(){
-    return gulp.src('./build/js/components/*.js')
+    return gulp.src(['./build/js/tmp/components/*.js', './build/js/tmp/admin-app.js'])
         .pipe(concat('all-components.js'))
         .pipe(gulp.dest('./build/js'))
 });
 
-gulp.task( 'jsx-shell', shell.task(['jsx ./assets/js/ ./build/js/']));
+gulp.task( 'jsx-shell', shell.task(['jsx ./assets/js/ ./build/js/tmp']));
 
 gulp.task( 'jsx', ['jsx-shell', 'jsx-concat'] );
 

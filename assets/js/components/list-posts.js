@@ -32,7 +32,7 @@ var Books = React.createClass({
     render: function(){
         if( this.props.data.length ) {
             var books = this.props.data.map(function(book){
-                return( <Book key={book.id} book={book}></Book> );
+                return( <BookRow key={book.id} book={book}></BookRow> );
             })
             return(<div>{books}</div>)
         } else {
@@ -41,10 +41,21 @@ var Books = React.createClass({
     }
 });
 
-var Book = React.createClass({
+var BookRow = React.createClass({
     render: function(){
-        return(<article>{this.props.book.title.rendered}</article>);
-    }
-})
+        /*
+         * Not sure if this is "right" but easiest way to pass data into HTML
+         */
+        var view_link = React.createElement( 'a', {href: '#/book/' + this.props.book.id, className: 'btn btn-primary' }, 'View');
+        var edit_link = React.createElement( 'a', {href: '#/edit/' + this.props.book.id, className: 'btn btn-warning' }, 'Edit');
+        var book_id = React.createElement( 'div', {className: 'col-sm-1'}, this.props.book.id );
+        var book_title = React.createElement( 'div', {className: 'col-sm-4'}, this.props.book.title.rendered );
+        var book_isbn = React.createElement( 'div', {className: 'col-sm-3'}, this.props.book.meta.isbn );
+        var book_links = React.createElement( 'div', {className: 'col-sm-4 text-right'}, view_link, edit_link );
 
-ReactDOM.render(<AllBooks />, document.getElementById('app-container'));
+        var book_row = React.createElement( 'article', {className: 'book row'}, book_id, book_title, book_isbn, book_links );
+
+
+        return( book_row );
+    }
+});

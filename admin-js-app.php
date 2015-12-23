@@ -30,6 +30,53 @@ class admin_js_app {
 
     }
 
+    function api_check() {
+        if( function_exists( 'register_rest_field' ) ||
+            function_exists( 'register_api_field' ) )
+        {
+            /*
+			 * SAMPLE: Create CPT and Fake Content
+			 */
+            add_action('init', array($this, 'create_cpt'));
+            add_action('init', array($this, 'create_book_content'));
+
+            /*
+			 * ADD REST Support to Custom Post Type
+			 */
+            add_action('init', array($this, 'rest_support'));
+
+            /*
+			 * CUSTOM API: Custom API Endpoints for our app
+			 */
+            //add_action( 'rest_api_init', array( $this, 'custom_api' ) );
+
+            /*
+			 * CUSTOM API: Custom API Fields
+			 */
+
+            add_action('rest_api_init', array($this, 'custom_api_fields'));
+
+            /*
+			 * ADMIN PAGE: Register and Create the Admin Page
+			 */
+            add_action('admin_menu', array($this, 'admin_menu'));
+
+            /*
+			 * ADMIN APP: Enqueue JavaScript for application
+			 */
+            add_action('admin_enqueue_scripts', array($this, 'admin_scripts'));
+        } else {
+            add_action( 'admin_notices',  array( $this, 'admin_notice' ) );
+        }
+    }
+
+
+    function admin_notice() {
+        $class = "error";
+        $message = 'Error: You need the <a href="https://wordpress.org/plugins/rest-api/" target="_blank">WP REST API</a> v2 beta';
+        echo "<div class=\"$class\"> <p>$message</p></div>";
+    }
+
     function create_cpt() {
         $this->book_cpt->create_cpt();
     }
@@ -83,37 +130,7 @@ class admin_js_app {
 
 $js_app = new admin_js_app();
 
-/*
- * SAMPLE: Create CPT and Fake Content
- */
-add_action( 'init', array( $js_app, 'create_cpt' ) );
-add_action( 'init', array( $js_app, 'create_book_content' ) );
-
-/*
- * ADD REST Support to Custom Post Type
- */
-add_action( 'init', array( $js_app, 'rest_support' ) );
-
-/*
- * CUSTOM API: Custom API Endpoints for our app
- */
-//add_action( 'rest_api_init', array( $js_app, 'custom_api' ) );
-
-/*
- * CUSTOM API: Custom API Fields
- */
-
-add_action( 'rest_api_init', array( $js_app, 'custom_api_fields' ) );
-
-/*
- * ADMIN PAGE: Register and Create the Admin Page
- */
-add_action( 'admin_menu', array( $js_app, 'admin_menu' ) );
-
-/*
- * ADMIN APP: Enqueue JavaScript for application
- */
-add_action( 'admin_enqueue_scripts', array( $js_app, 'admin_scripts' ) );
+add_action('plugins_loaded', array( $js_app, 'api_check' ) );
 
 
 
